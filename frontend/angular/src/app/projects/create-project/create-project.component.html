@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>
+  @if (data) {
+    {{ '::CreateProject:TitleEdit' | abpLocalization }} {{ data.name }}
+  } @else {
+    {{ '::CreateProject:TitleAdd' | abpLocalization }}
+  }
+</h2>
+<mat-dialog-content>
+  <form [formGroup]="createProjectForm" class="form-container">
+    <mat-form-field appearance="outline" class="custom-input">
+      <mat-label>{{ '::CreateProject:Name' | abpLocalization }}</mat-label>
+      <input formControlName="name" matInput type="text" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="custom-input">
+      <mat-label>{{ '::CreateProject:Description' | abpLocalization }}</mat-label>
+      <textarea formControlName="description" matInput placeholder="Описание..."></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="custom-input">
+      <mat-label>{{ '::CreateProject:GitToken' | abpLocalization }}</mat-label>
+      <input formControlName="gitAccessToken" matInput type="text" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    class="close-button"
+    mat-button
+    mat-dialog-close
+  >
+    {{ '::Close' | abpLocalization }}
+  </button>
+  <button
+    [disabled]="createProjectForm.invalid"
+    [mat-dialog-close]="createProject()"
+    class="save-button"
+    color="primary"
+    mat-raised-button
+  >
+    {{ '::Save' | abpLocalization }}
+  </button>
+</mat-dialog-actions>
+

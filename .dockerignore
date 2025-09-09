@@ -1,0 +1,13 @@
+.github
+.gitignore
+docker
+.git
+**/.git
+**/bin
+**/obj
+**/node_modules
+**/.angular
+**/dist
+**/.DS_Store
+**/*.md
+**/tests

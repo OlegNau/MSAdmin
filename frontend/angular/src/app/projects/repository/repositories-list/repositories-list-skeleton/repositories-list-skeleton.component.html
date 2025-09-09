@@ -1,0 +1,56 @@
+<mat-card-content class="table-wrapper">
+  <table
+    [dataSource]="[1,2,3,4,5,6]"
+    class="w-100"
+    mat-table
+    matSort
+  >
+    <ng-container matColumnDef="name">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>
+        {{ '::Table:Field:Name' | abpLocalization }}
+      </th>
+      <td *matCellDef="let element" mat-cell>
+        <div class="skeleton skeleton-item"></div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="url">
+      <th *matHeaderCellDef mat-header-cell>
+        {{ '::Table:Field:Url' | abpLocalization }}
+      </th>
+      <td *matCellDef="let element" mat-cell>
+        <div class="skeleton skeleton-item"></div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="webhookUrl">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>
+        {{ '::Table:Field:WebhookUrl' | abpLocalization }}
+      </th>
+      <td *matCellDef="let element" mat-cell>
+        <div class="skeleton skeleton-item"></div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="projectId">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>
+        {{ '::Table:Field:ProjectId' | abpLocalization }}
+      </th>
+      <td *matCellDef="let element" mat-cell>
+        <div class="skeleton skeleton-item"></div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="isActive">
+      <th *matHeaderCellDef mat-header-cell>
+        {{ '::Table:Field:IsActive' | abpLocalization }}
+      </th>
+      <td *matCellDef="let element" mat-cell>
+        <div class="skeleton skeleton-item"></div>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="['name','url','webhookUrl','projectId','isActive']" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: ['name','url','webhookUrl','projectId','isActive']" mat-row></tr>
+  </table>
+</mat-card-content>

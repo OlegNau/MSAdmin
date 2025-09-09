@@ -1,0 +1,13 @@
+@use 'styles/skeleton/skeleton' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.skeleton-item {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.75rem;
+}

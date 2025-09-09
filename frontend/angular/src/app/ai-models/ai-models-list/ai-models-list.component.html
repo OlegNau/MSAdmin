@@ -1,0 +1,44 @@
+﻿<mat-card>
+  <mat-card-title style="margin: 1rem;">
+    {{ '::AIModels' | abpLocalization }}
+  </mat-card-title>
+
+  @if (dataSource) {
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ '::Table:Name' | abpLocalization }}
+        </th>
+
+        <td mat-cell *matCellDef="let model">{{ model.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="vendor">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ '::Table:Vendor' | abpLocalization }}
+        </th>
+        <td mat-cell *matCellDef="let model">{{ model.vendor }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef style="text-align: right;">
+          {{ '::Table:Actions' | abpLocalization }}
+        </th>
+
+        <td mat-cell *matCellDef="let model" style="text-align: right;">
+          <button mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat-icon-button color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  }
+</mat-card>

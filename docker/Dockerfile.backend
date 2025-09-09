@@ -1,0 +1,39 @@
+# syntax=docker/dockerfile:1
+
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /src
+
+# Node.js
+RUN rm -f /etc/apt/apt.conf.d/docker-clean; \
+    echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
+
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install -y curl gnupg && \
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y --no-install-recommends nodejs
+
+RUN dotnet tool install -g Volo.Abp.Cli
+ENV PATH="${PATH}:/root/.dotnet/tools"
+
+COPY . .
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet restore src/Nomium.MergeSensei.HttpApi.Host/Nomium.MergeSensei.HttpApi.Host.csproj
+
+WORKDIR /src/src/Nomium.MergeSensei.HttpApi.Host
+
+ENV YARN_CACHE_FOLDER=/root/.cache/yarn
+RUN --mount=type=cache,target=/root/.cache/yarn,sharing=locked \
+    --mount=type=cache,target=/root/.npm,sharing=locked \
+    abp install-libs
+
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet publish -c Release -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
+WORKDIR /app
+EXPOSE 8080
+COPY --from=build /app/publish .
+
+ENTRYPOINT ["dotnet", "Nomium.MergeSensei.HttpApi.Host.dll"]
+

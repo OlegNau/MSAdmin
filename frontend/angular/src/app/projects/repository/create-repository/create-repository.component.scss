@@ -1,0 +1,33 @@
+@use 'styles/abstracts/variables' as *;
+@use '@angular/material' as mat;
+
+:host {
+  display: block;
+}
+
+.custom-input {
+  width: 100%;
+  padding-top: 0.5rem;
+}
+
+.close-button {
+  @include mat.button-overrides((
+    filled-container-color: $white-color,
+    text-label-text-color: $accent-color,
+    text-state-layer-color: $accent-color,
+    filled-hover-state-layer-opacity: 0.08,
+    filled-focus-state-layer-opacity: 0.12,
+    filled-pressed-state-layer-opacity: 0.12
+  ));
+}
+
+.save-button {
+  @include mat.button-overrides((
+    protected-container-color: $accent-color,
+    protected-label-text-color: $white-color,
+    protected-state-layer-color: $white-color,
+    protected-hover-state-layer-opacity: 0.08,
+    protected-focus-state-layer-opacity: 0.12,
+    protected-pressed-state-layer-opacity: 0.12
+  ));
+}

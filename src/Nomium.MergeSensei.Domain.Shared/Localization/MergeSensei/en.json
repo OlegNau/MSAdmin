@@ -1,0 +1,15 @@
+{
+  "Culture": "en",
+  "Texts": {
+    "AppName": "MergeSensei",
+    "Menu:Home": "Home",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information visit",
+    "Welcome": "Welcome",
+    "AIModels": "AI models",
+    "Menu:AIModels": "AI models",
+    "Menu:AIModelsList": "AI models list",
+    "Table:Name": "Name",
+    "Table:Vendor": "Vendor",
+    "Table:Actions": "Actions"
+  }
+}

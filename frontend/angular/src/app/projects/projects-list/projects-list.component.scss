@@ -1,0 +1,76 @@
+@use 'styles/abstracts/variables' as *;
+@use 'styles/skeleton/skeleton' as *;
+@use 'styles/media/media' as *;
+@use '@angular/material' as mat;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 1rem;
+}
+
+.heading {
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+}
+
+.button {
+  @include mat.button-overrides((
+    protected-container-color: $white-color,
+    protected-label-text-color: $accent-color,
+    protected-state-layer-color: $accent-color,
+    protected-hover-state-layer-opacity: 0.08,
+    protected-focus-state-layer-opacity: 0.12,
+    protected-pressed-state-layer-opacity: 0.12
+  ));
+}
+
+.stub-button {
+  @include mat.button-overrides((
+    protected-container-color: $accent-color,
+    protected-label-text-color: $white-color,
+    protected-state-layer-color: $white-color,
+    protected-hover-state-layer-opacity: 0.08,
+    protected-focus-state-layer-opacity: 0.12,
+    protected-pressed-state-layer-opacity: 0.12
+  ));
+}
+
+.list {
+  display: grid;
+  grid-gap: 1rem;
+  align-items: stretch;
+
+  @include respond-max($md) {
+    grid-template-columns: 1fr;
+  }
+
+  @include respond-between($md, $xl) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @include respond-min($xl) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.item {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    box-shadow: $base-drop-shadow;
+    transform: translateY(-2px)
+  }
+}
+
+.pagination {
+  margin-top: auto;
+}
+

@@ -1,0 +1,41 @@
+<mat-card (click)="openProject(project.id)" appearance="outlined" class="card">
+  <mat-card-header class="card__header">
+    <mat-card-title>{{ project.name }}</mat-card-title>
+    <button (click)="editProject($event, project)" class="card__button"
+            mat-button>{{ '::Button:Edit' | abpLocalization }}
+    </button>
+  </mat-card-header>
+
+  <mat-card-content class="card__description">
+    <p>{{ project.description }}</p>
+    @if (repositories$ | async; as repositories) {
+      @if (isLoading$ | async) {
+        <div class="skeleton skeleton-item"></div>
+        <div class="skeleton skeleton-item"></div>
+      } @else {
+        @if (repositories.length > 0) {
+          <div class="repositories">
+            @for (repository of repositories; track $index) {
+              <div class="repositories__item">
+                <img [src]="repository.platformLogo" [alt]="repository.platform" class="repositories__icon">
+                <a
+                  (click)="$event.stopPropagation()"
+                  [href]="repository.url"
+                  target="_blank"
+                  class="repositories__link">{{ repository.name }}</a>
+                <div class="repositories__meta">
+                  <span>{{ '::ProductCard:Processes' | abpLocalization }} {{ repository.pipelineCount }}</span>
+                  @if (repository.lastPipelineRun) {
+                    <span>{{ '::ProductCard:LastLaunch' | abpLocalization }} {{ repository.lastPipelineRun | date:'dd.MM.yyyy' }}</span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <p class="no-repos">{{ '::ProductCard:NoRepositories' | abpLocalization }}</p>
+        }
+      }
+    }
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,10 @@
+@if (currentProject$ | async; as currentProject) {
+  <mat-card appearance="outlined" class="p-2 mb-2">
+    <mat-card-title-group class="w-100">
+      <mat-card-title>
+        Проект {{ currentProject.name }}
+      </mat-card-title>
+    </mat-card-title-group>
+  </mat-card>
+  <router-outlet></router-outlet>
+}

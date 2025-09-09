@@ -1,0 +1,64 @@
+@use 'styles/abstracts/variables' as *;
+@use '@angular/material' as mat;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 1rem;
+}
+
+.content {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.button {
+  @include mat.button-overrides((
+    protected-container-color: $white-color,
+    protected-label-text-color: $accent-color,
+    protected-state-layer-color: $accent-color,
+    protected-hover-state-layer-opacity: 0.08,
+    protected-focus-state-layer-opacity: 0.12,
+    protected-pressed-state-layer-opacity: 0.12
+  ));
+}
+
+.stub-button {
+  @include mat.button-overrides((
+    protected-container-color: $accent-color,
+    protected-label-text-color: $white-color,
+    protected-state-layer-color: $white-color,
+    protected-hover-state-layer-opacity: 0.08,
+    protected-focus-state-layer-opacity: 0.12,
+    protected-pressed-state-layer-opacity: 0.12
+  ));
+}
+
+.button-icon {
+  margin-right: 0.5rem;
+}
+
+.table-wrapper {
+  flex-grow: 1;
+  width: 100%;
+  overflow: auto;
+}
+
+.table {
+  min-width: 1000px;
+}
+
+.toggle {
+  @include mat.slide-toggle-overrides((
+    selected-track-color: $accent-color,
+    selected-pressed-track-color: $accent-color,
+    selected-hover-track-color: $accent-color,
+    selected-focus-track-color: $accent-color,
+    selected-icon-color: $accent-color,
+  ))
+}
+
+.pagination {
+  margin-top: auto;
+}

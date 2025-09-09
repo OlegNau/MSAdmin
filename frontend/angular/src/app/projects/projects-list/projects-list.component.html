@@ -1,0 +1,61 @@
+<div class="row mb-3">
+  <div class="col-xl-12 col-12 d-flex justify-content-between heading">
+    <h3 [appSkeleton]="isLoading$ | async" class="title">{{ '::MyProjects:Title' | abpLocalization }}</h3>
+    @if (projects$ | async; as projects) {
+      @if (projects.items.length > 0) {
+        <button
+          [appSkeleton]="isLoading$ | async"
+          id="create"
+          mat-raised-button
+          class="button"
+          type="button"
+          (click)="createProject()"
+        >
+          <mat-icon>add</mat-icon>
+          {{ '::Button:CreateProject' | abpLocalization }}
+        </button>
+      }
+    }
+  </div>
+</div>
+
+@switch (viewState$ | async) {
+  @case ('loading') {
+    <app-projects-list-skeleton />
+  }
+  @case ('empty') {
+    <app-stub
+      [title]="'::MyProjects:StubTitle'"
+      [subtitle]="'::MyProjects:StubSubTitle'"
+      type="empty">
+      <button mat-raised-button class="stub-button" type="button" (click)="createProject()">
+        {{ '::Button:CreateNewProject' | abpLocalization }}
+      </button>
+    </app-stub>
+  }
+  @case ('error') {
+    <app-stub [title]="'::MyProjects:ErrorStub'" type="error">
+      <button mat-raised-button class="stub-button" type="button" (click)="createProject()">
+        {{ '::Button:Retry' | abpLocalization }}
+      </button>
+    </app-stub>
+  }
+  @case ('loaded') {
+    @if (projects$ | async; as projects) {
+      <div class="list">
+        @for (project of projects.items; track project.id) {
+          <app-project-card
+            class="item"
+            [project]="project"
+          />
+        }
+      </div>
+      <mat-paginator
+        class="pagination"
+        [length]="projects.totalCount"
+        [pageSize]="listService.maxResultCount"
+        (page)="changePage($event)">
+      </mat-paginator>
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "4.2.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.Account": {
+      "version": "9.2.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "9.2.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity": {
+      "version": "9.2.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "9.2.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "9.2.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "9.2.2",
+      "isInstalled": true
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "9.2.2",
+      "isInstalled": true
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "Nomium.MergeSensei.Application": {
+      "path": "src/Nomium.MergeSensei.Application/Nomium.MergeSensei.Application.abppkg",
+      "folder": "src"
+    },
+    "Nomium.MergeSensei.Application.Tests": {
+      "path": "test/Nomium.MergeSensei.Application.Tests/Nomium.MergeSensei.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "Nomium.MergeSensei.Domain.Shared": {
+      "path": "src/Nomium.MergeSensei.Domain.Shared/Nomium.MergeSensei.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "Nomium.MergeSensei.Application.Contracts": {
+      "path": "src/Nomium.MergeSensei.Application.Contracts/Nomium.MergeSensei.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "Nomium.MergeSensei.HttpApi": {
+      "path": "src/Nomium.MergeSensei.HttpApi/Nomium.MergeSensei.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "Nomium.MergeSensei.HttpApi.Client": {
+      "path": "src/Nomium.MergeSensei.HttpApi.Client/Nomium.MergeSensei.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "Nomium.MergeSensei.EntityFrameworkCore.Tests": {
+      "path": "test/Nomium.MergeSensei.EntityFrameworkCore.Tests/Nomium.MergeSensei.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "Nomium.MergeSensei.EntityFrameworkCore": {
+      "path": "src/Nomium.MergeSensei.EntityFrameworkCore/Nomium.MergeSensei.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "Nomium.MergeSensei.TestBase": {
+      "path": "test/Nomium.MergeSensei.TestBase/Nomium.MergeSensei.TestBase.abppkg",
+      "folder": "test"
+    },
+    "Nomium.MergeSensei.Domain.Tests": {
+      "path": "test/Nomium.MergeSensei.Domain.Tests/Nomium.MergeSensei.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "Nomium.MergeSensei.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/Nomium.MergeSensei.HttpApi.Client.ConsoleTestApp/Nomium.MergeSensei.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "Nomium.MergeSensei.DbMigrator": {
+      "path": "src/Nomium.MergeSensei.DbMigrator/Nomium.MergeSensei.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "Nomium.MergeSensei.HttpApi.Host": {
+      "path": "src/Nomium.MergeSensei.HttpApi.Host/Nomium.MergeSensei.HttpApi.Host.abppkg",
+      "folder": "src"
+    },
+    "Nomium.MergeSensei.Domain": {
+      "path": "src/Nomium.MergeSensei.Domain/Nomium.MergeSensei.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}

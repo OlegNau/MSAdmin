@@ -1,0 +1,10 @@
+<div class="stub">
+  <div class="stub__content">
+    <mat-icon [style.color]="stubConfigs[type].color" class="stub__icon">
+      {{ stubConfigs[type].icon }}
+    </mat-icon>
+    <h3>{{ title | abpLocalization }}</h3>
+    <p>{{ subtitle | abpLocalization }}</p>
+    <ng-content />
+  </div>
+</div>

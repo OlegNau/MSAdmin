@@ -1,0 +1,39 @@
+@use 'styles/abstracts/variables' as *;
+
+:host {
+  display: block;
+}
+
+.app-toast-list {
+  z-index: 1001;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1rem;
+  width: min(100%, $toast-max-width);
+  padding: 1rem;
+}
+
+.app-toast {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem;
+  background-color: $toast-bg-color;
+  border-radius: 0.75rem;
+  font-size: 0.85rem;
+
+  span {
+    font-weight: 700;
+  }
+
+  &--success {
+    color: $toast-success-color;
+  }
+
+  &--error {
+    color: $toast-error-color;
+  }
+}

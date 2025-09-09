@@ -1,0 +1,24 @@
+$xs: 0;
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+$xxl: 1400px;
+
+@mixin respond-between($min, $max) {
+  @media (min-width: $min) and (max-width: $max) {
+    @content;
+  }
+}
+
+@mixin respond-min($min) {
+  @media (min-width: $min) {
+    @content;
+  }
+}
+
+@mixin respond-max($max) {
+  @media (max-width: $max) {
+    @content;
+  }
+}

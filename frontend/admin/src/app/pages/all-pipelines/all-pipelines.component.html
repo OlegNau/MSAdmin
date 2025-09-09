@@ -1,0 +1,91 @@
+<div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
+  <header class="pt-8">
+    <h1 class="text-3xl font-bold">All Pipelines</h1>
+    <p class="mt-1 text-sm text-gray-400">Monitor and manage all pipelines across projects</p>
+  </header>
+
+  <!-- Controls -->
+  <div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-3">
+    <!-- Search -->
+    <div class="relative sm:w-96">
+      <svg class="pointer-events-none absolute left-3 top-2.5 w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input [(ngModel)]="search" placeholder="Search pipelines..."
+             class="h-9 w-full rounded-md border border-white/10 bg-white/5 pl-9 pr-3 text-sm placeholder:text-gray-400 text-gray-100 focus:outline-none focus:ring-2 focus:ring-white/20" />
+    </div>
+
+    <div class="sm:ml-auto flex items-center gap-2">
+      <select [(ngModel)]="projectFilter"
+              class="h-9 rounded-md border border-white/10 bg-white/5 px-3 text-sm text-gray-100">
+        @for (p of projects; track p) { <option [value]="p">{{ p }}</option> }
+      </select>
+
+      <button (click)="moreOpen=!moreOpen"
+              class="h-9 rounded-md border border-white/10 bg-white/5 px-3 text-sm inline-flex items-center gap-2 hover:bg-white/10">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        More Filters
+      </button>
+    </div>
+  </div>
+
+  <!-- More filters -->
+  @if (moreOpen) {
+    <div class="mt-3 flex flex-wrap items-center gap-2">
+      <span class="text-xs text-gray-400 mr-1">Status:</span>
+      <button (click)="toggleStatus('Active')"
+              class="rounded-full px-2 py-1 text-[11px] border"
+              [ngClass]="statusFilter.has('Active') ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30' : 'bg-white/5 text-gray-300 border-white/10'">
+        Active
+      </button>
+      <button (click)="toggleStatus('Inactive')"
+              class="rounded-full px-2 py-1 text-[11px] border"
+              [ngClass]="statusFilter.has('Inactive') ? 'bg-rose-500/20 text-rose-300 border-rose-400/30' : 'bg-white/5 text-gray-300 border-white/10'">
+        Inactive
+      </button>
+    </div>
+  }
+
+  <!-- Table card -->
+  <div class="mt-6 rounded-xl border border-white/10 bg-white/[0.03] overflow-x-auto"
+       style="box-shadow:0 0 0 1px rgba(255,255,255,0.02) inset">
+    <table class="min-w-full table-auto">
+      <thead class="text-left">
+        <tr class="text-xs uppercase tracking-wide text-gray-400">
+          <th class="px-4 py-3 w-8"></th>
+          <th class="px-4 py-3">Pipeline</th>
+          <th class="px-4 py-3">Project</th>
+          <th class="px-4 py-3">Status</th>
+          <th class="px-4 py-3">Trigger</th>
+          <th class="px-4 py-3 whitespace-nowrap">Last Run</th>
+          <th class="px-4 py-3">Actions</th>
+        </tr>
+        <tr><td colspan="7" class="border-b border-white/10"></td></tr>
+      </thead>
+      <tbody>
+        @for (r of filtered(); track r.id) {
+          <tr class="border-t border-white/10 hover:bg-white/[0.04]">
+            <td class="px-4 py-3">
+              <svg class="w-3.5 h-3.5 text-gray-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </td>
+            <td class="px-4 py-3 text-sm font-medium text-gray-200">
+              {{ r.name }}
+            </td>
+            <td class="px-4 py-3 text-sm text-gray-300">{{ r.project }}</td>
+            <td class="px-4 py-3">
+              <span class="rounded-full px-2 py-0.5 text-[11px]"
+                    [ngClass]="r.status==='Active' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'">
+                {{ r.status }}
+              </span>
+            </td>
+            <td class="px-4 py-3 text-sm text-gray-300 whitespace-nowrap">{{ r.trigger }}</td>
+            <td class="px-4 py-3 text-sm text-gray-300 whitespace-nowrap">{{ r.lastRun | date:'MM/dd/yyyy, hh:mm a' }}</td>
+            <td class="px-4 py-3 text-sm">
+              <a [routerLink]="['/pipelines', r.id]" class="text-blue-400 hover:underline">View Details</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="h-10"></div>
+</div>
