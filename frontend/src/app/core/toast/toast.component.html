@@ -1,0 +1,10 @@
+@if (toasts.length) {
+  <div class="app-toast-list drop-shadow-lg">
+    @for (toast of toasts; track trackById) {
+      <div @toastFadeIn [class]="getClass(toast)">
+        <span>{{ getTitle(toast) | abpLocalization }}</span>
+        {{ toast.message | abpLocalization }}
+      </div>
+    }
+  </div>
+}
