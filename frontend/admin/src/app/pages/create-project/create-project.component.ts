@@ -18,7 +18,6 @@ import { ProjectService } from '../../proxy/projects/project.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateProjectComponent {
-  // TODO: i18n
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly projectService = inject(ProjectService);

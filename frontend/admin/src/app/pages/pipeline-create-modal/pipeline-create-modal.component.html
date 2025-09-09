@@ -1,11 +1,8 @@
-<!-- Backdrop -->
 <div class="fixed inset-0 z-40" (click)="close()" style="background:rgba(0,0,0,.65)"></div>
 
-<!-- Modal -->
 <div class="fixed inset-0 z-50 grid place-items-center p-4">
   <div class="w-full max-w-3xl rounded-xl border border-white/10 bg-[#0f1114] text-gray-100"
        style="box-shadow:0 0 0 1px rgba(255,255,255,.04) inset">
-    <!-- Header -->
     <div class="flex items-start justify-between p-6 pb-4">
       <div>
         <h2 class="text-lg font-semibold">Create Pipeline for <span class="text-white">Project {{ projectId }}</span></h2>
@@ -28,7 +25,6 @@
     </div>
 
     <form class="p-6 pt-2 space-y-6" [formGroup]="form" (ngSubmit)="submit()">
-      <!-- STEP 1 -->
       @if (step === 1) {
         <section>
           <h3 class="text-base font-semibold">Step 1: Pipeline Name</h3>
@@ -42,7 +38,6 @@
         </section>
       }
 
-      <!-- STEP 2 -->
       @if (step === 2) {
         <section class="space-y-4">
           <h3 class="text-base font-semibold">Step 2: Triggers</h3>
@@ -91,7 +86,6 @@
         </section>
       }
 
-      <!-- STEP 3 -->
       @if (step === 3) {
         <section>
           <h3 class="text-base font-semibold">Step 3: AI Agents & Rules</h3>
@@ -111,7 +105,6 @@
         </section>
       }
 
-      <!-- STEP 4 -->
       @if (step === 4) {
         <section class="text-sm space-y-3">
           <h3 class="text-base font-semibold">Step 4: Summary</h3>
@@ -141,7 +134,6 @@
         </section>
       }
 
-      <!-- Footer -->
       <div class="flex items-center justify-between pt-2">
         <button type="button" (click)="close()" class="h-10 px-3 rounded-md border border-white/10 bg-white/5 text-sm">Cancel</button>
         <div class="flex items-center gap-2">

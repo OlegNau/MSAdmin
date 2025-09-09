@@ -6,8 +6,8 @@ type Stat = {
   id: string;
   title: string;
   value: string | number;
-  deltaText: string;        // "+12% from last month"
-  deltaDir: 'up'|'down';    // влияет на цвет
+  deltaText: string;
+  deltaDir: 'up'|'down';
   icon: 'trend'|'activity'|'code'|'bug'|'team'|'time';
 };
 type Activity = {
@@ -42,9 +42,9 @@ export class DashboardComponent {
   ];
 
   public performance = {
-    successRate: 94.2,   // %
-    avgDuration: 72,     // % длины полосы (визуальная метрика)
-    queueTime: 35,       // %
+    successRate: 94.2,
+    avgDuration: 72,
+    queueTime: 35,
     avgDurationText: '3.2 minutes',
     queueTimeText: '12 seconds',
   };

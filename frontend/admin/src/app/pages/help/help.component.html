@@ -4,7 +4,6 @@
     <p class="mt-1 text-sm text-gray-400">Найдите ответы, посмотрите документацию или обратитесь в поддержку</p>
   </header>
 
-  <!-- Search + actions -->
   <div class="mt-6 flex flex-col lg:flex-row lg:items-center gap-3">
     <div class="relative lg:w-[480px]">
       <svg class="pointer-events-none absolute left-3 top-2.5 w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -25,7 +24,6 @@
     </div>
   </div>
 
-  <!-- Quick links -->
   <section class="mt-6">
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
       @for (q of quick; track q.title) {
@@ -88,7 +86,6 @@
       </ul>
     </article>
 
-    <!-- Contact form -->
     <article class="rounded-xl border border-white/10 bg-white/[0.03] p-5" style="box-shadow:0 0 0 1px rgba(255,255,255,.02) inset">
       <h2 class="text-xl font-semibold">Обращение в поддержку</h2>
       <form class="mt-4 space-y-4" [formGroup]="form" (ngSubmit)="submit()">

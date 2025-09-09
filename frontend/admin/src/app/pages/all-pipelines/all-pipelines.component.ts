@@ -10,7 +10,7 @@ type PipelineRow = {
   project: string;
   status: Status;
   trigger: string;
-  lastRun: string; // ISO
+  lastRun: string;
 };
 
 @Component({
@@ -25,7 +25,7 @@ export class AllPipelinesComponent {
   public search = '';
   public projectFilter = 'All';
   public moreOpen = false;
-  public statusFilter = new Set<Status>(); // пусто = оба статуса
+  public statusFilter = new Set<Status>();
 
   public projects = ['All','AI Review Platform','E-commerce Analytics','Mobile App Backend','Data Warehouse ETL'];
 

@@ -4,7 +4,6 @@
     <p class="mt-1 text-sm text-gray-400">Manage your company settings and preferences</p>
   </header>
 
-  <!-- Tabs -->
   <nav class="mt-4">
     <ul class="flex flex-wrap gap-2 rounded-md border border-white/10 bg-white/[0.03] p-1" style="box-shadow:0 0 0 1px rgba(255,255,255,.02) inset">
       <li>
@@ -40,7 +39,6 @@
     </ul>
   </nav>
 
-  <!-- Company Tab -->
   <div *ngIf="is('company')" class="mt-4 rounded-xl border border-white/10 bg-white/[0.03] overflow-hidden" style="box-shadow:0 0 0 1px rgba(255,255,255,.02) inset">
     <div class="px-6 py-4 border-b border-white/10">
       <h2 class="text-lg font-semibold">Company Information</h2>
@@ -69,7 +67,6 @@
     </form>
   </div>
 
-  <!-- Team Tab -->
   <div *ngIf="is('team')" class="mt-4 rounded-xl border border-white/10 bg-white/[0.03] overflow-hidden" style="box-shadow:0 0 0 1px rgba(255,255,255,.02) inset">
     <div class="px-6 py-4 border-b border-white/10">
       <h2 class="text-lg font-semibold">Team</h2>
@@ -79,7 +76,6 @@
     </div>
   </div>
 
-  <!-- Security Tab -->
   <div *ngIf="is('security')" class="mt-4 rounded-xl border border-white/10 bg-white/[0.03] overflow-hidden" style="box-shadow:0 0 0 1px rgba(255,255,255,.02) inset">
     <div class="px-6 py-4 border-b border-white/10">
       <h2 class="text-lg font-semibold">Security</h2>
@@ -89,7 +85,6 @@
     </div>
   </div>
 
-  <!-- Notifications Tab -->
   <div *ngIf="is('notifications')" class="mt-4 rounded-xl border border-white/10 bg-white/[0.03] overflow-hidden" style="box-shadow:0 0 0 1px rgba(255,255,255,.02) inset">
     <div class="px-6 py-4 border-b border-white/10">
       <h2 class="text-lg font-semibold">Notifications</h2>
@@ -99,7 +94,6 @@
     </div>
   </div>
 
-  <!-- Language Tab -->
   <div *ngIf="is('language')" class="mt-4 rounded-xl border border-white/10 bg-white/[0.03] overflow-hidden" style="box-shadow:0 0 0 1px rgba(255,255,255,.02) inset">
     <div class="px-6 py-4 border-b border-white/10">
       <h2 class="text-lg font-semibold">Language</h2>
