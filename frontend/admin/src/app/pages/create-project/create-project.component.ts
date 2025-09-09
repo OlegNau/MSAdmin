@@ -7,6 +7,7 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
+import { ProjectService } from '../../proxy/projects/project.service';
 
 @Component({
   selector: 'app-create-project',
@@ -20,6 +21,7 @@ export class CreateProjectComponent {
   // TODO: i18n
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
+  private readonly projectService = inject(ProjectService);
 
   public readonly form = this.fb.group({
     name: ['', Validators.required],
@@ -35,7 +37,12 @@ export class CreateProjectComponent {
       return;
     }
 
-    // TODO: API call and navigation to project detail page
+    this.projectService
+      .create({
+        name: this.form.value.name ?? '',
+        description: this.form.value.description ?? '',
+      })
+      .subscribe(() => this.router.navigate(['/projects']));
   }
 
   public cancel(): void {
