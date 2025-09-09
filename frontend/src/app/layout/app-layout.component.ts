@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AppHeaderComponent } from './header/header.component';
+import { ToastComponent } from '../core/toast/toast.component';
 
 type NavItem = {
   id: string;
@@ -18,7 +19,7 @@ type NavItem = {
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule, NgOptimizedImage, AppHeaderComponent],
+  imports: [CommonModule, RouterModule, NgOptimizedImage, AppHeaderComponent, ToastComponent],
   templateUrl: './app-layout.component.html',
   styleUrls: ['./app-layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
