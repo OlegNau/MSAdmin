@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProjectService } from '../../proxy/projects/project.service';
 import type { ProjectDto } from '../../proxy/projects/dtos/models';
+import { map, take } from 'rxjs';
 
 interface Project extends ProjectDto {
   provider?: 'GitHub' | 'GitLab' | 'Bitbucket';
@@ -26,18 +27,20 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit(): void {
     this.projectService
-      .getList({ skipCount: 0, maxResultCount: 100, sorting: undefined })
-      .subscribe(res => {
-        this.projects.set(
-          res.items.map(p => ({
+      .getList({ skipCount: 0, maxResultCount: 100 })
+      .pipe(
+        map(res => res?.items ?? []),
+        map(items =>
+          items.map<Project>(p => ({
             ...p,
-            provider: '',
-            repoPath: '',
-            branch: '',
-            active: 0,
-            total: 0,
+            repoPath: (p as any).repoPath ?? '',
+            branch: (p as any).branch ?? '',
+            active: (p as any).active ?? 0,
+            total: (p as any).total ?? 0,
           })),
-        );
-      });
+        ),
+        take(1),
+      )
+      .subscribe(items => this.projects.set(items));
   }
 }
