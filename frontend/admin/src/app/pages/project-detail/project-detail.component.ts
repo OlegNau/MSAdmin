@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ProjectService } from '../../proxy/projects/project.service';
+import { take } from 'rxjs';
 
 type Status = 'Active' | 'Inactive';
 type PipelineRow = { id: string; name: string; status: Status; lastRun: string };
@@ -13,35 +15,44 @@ type PipelineRow = { id: string; name: string; status: Status; lastRun: string }
   styleUrls: ['./project-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectDetailComponent {
-  readonly idFromRoute: string;
-  readonly project: {
+export class ProjectDetailComponent implements OnInit {
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly projectService = inject(ProjectService);
+
+  public readonly project = signal<{
     id: string;
     name: string;
     description: string;
     pipelines: PipelineRow[];
-  };
+  }>({ id: '', name: '', description: '', pipelines: [] });
 
-  constructor(private router: Router, private route: ActivatedRoute) {
-    this.idFromRoute = this.route.snapshot.paramMap.get('id') ?? '';
-    // мок-данные (замени на сервис)
-    this.project = {
-      id: this.idFromRoute,
-      name: this.idFromRoute === 'ai-review' ? 'AI Review Platform' : 'Project ' + this.idFromRoute,
-      description:
-        'Core company product for automated code reviews with machine learning capabilities',
-      pipelines: <PipelineRow[]>[
-        { id: 'p-main', name: 'Main Pipeline (main branch)', status: 'Active', lastRun: '2024-01-15T14:30:00Z' },
-        { id: 'p-log', name: 'Log Analysis (staging)', status: 'Inactive', lastRun: '2024-01-14T11:00:00Z' },
-        { id: 'p-perf', name: 'Performance Testing', status: 'Active', lastRun: '2024-01-15T09:15:00Z' },
-      ],
-    };
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id') ?? '';
+    if (!id) {
+      this.router.navigate(['/404']);
+      return;
+    }
+
+    this.projectService
+      .get(id)
+      .pipe(take(1))
+      .subscribe({
+        next: p =>
+          this.project.set({
+            id: p.id ?? id,
+            name: p.name ?? '',
+            description: p.description ?? '',
+            pipelines: [],
+          }),
+        error: () => this.router.navigate(['/404']),
+      });
   }
 
   openCreatePipelineModal(projectId: string) {
     this.router.navigate(
       [{ outlets: { modal: ['projects', projectId, 'pipelines', 'new'] } }],
-      { relativeTo: this.route.root }
+      { relativeTo: this.route.root },
     );
   }
 }

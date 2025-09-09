@@ -26,6 +26,7 @@ export class CreateProjectComponent {
   public readonly form = this.fb.group({
     name: ['', Validators.required],
     description: [''],
+    gitAccessToken: ['', Validators.required],
     repository: [''],
     defaultBranch: [''],
     visibility: ['private'],
@@ -41,6 +42,7 @@ export class CreateProjectComponent {
       .create({
         name: this.form.value.name ?? '',
         description: this.form.value.description ?? '',
+        gitAccessToken: this.form.value.gitAccessToken ?? '',
       })
       .subscribe(() => this.router.navigate(['/projects']));
   }

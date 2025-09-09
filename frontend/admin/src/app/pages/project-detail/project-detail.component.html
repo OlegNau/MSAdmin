@@ -4,14 +4,14 @@
       <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
       Back to Projects
     </a>
-    <h1 class="mt-2 text-3xl font-bold">{{ project.name }}</h1>
-    <p class="text-sm text-gray-400">{{ project.description }}</p>
+    <h1 class="mt-2 text-3xl font-bold">{{ project().name }}</h1>
+    <p class="text-sm text-gray-400">{{ project().description }}</p>
   </div>
 
     <div class="mt-6 flex items-center justify-end">
       <button
         type="button"
-        (click)="openCreatePipelineModal(project.id)"
+        (click)="openCreatePipelineModal(project().id)"
         class="inline-flex items-center gap-2 h-10 px-4 rounded-md bg-blue-600/90 hover:bg-blue-600 text-white text-sm font-medium">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 5v14M5 12h14"/>
@@ -39,7 +39,7 @@
           <tr><td colspan="5" class="border-b border-white/10"></td></tr>
         </thead>
         <tbody>
-          @for (r of project.pipelines; track r.id) {
+          @for (r of project().pipelines; track r.id) {
             <tr class="border-t border-white/10 hover:bg-white/[0.04]">
               <td class="px-4 py-3">
                 <svg class="w-3.5 h-3.5 text-gray-300" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
