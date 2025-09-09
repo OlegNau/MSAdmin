@@ -2,16 +2,9 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@ang
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProjectService } from '../../proxy/projects/project.service';
+import { RepositoryService } from '../../proxy/repositories/repository.service';
 import type { ProjectDto } from '../../proxy/projects/dtos/models';
 import { map, take } from 'rxjs';
-
-interface Project extends ProjectDto {
-  provider?: 'GitHub' | 'GitLab' | 'Bitbucket';
-  repoPath?: string;
-  branch?: string;
-  active?: number;
-  total?: number;
-}
 
 @Component({
   selector: 'app-projects',
@@ -23,24 +16,39 @@ interface Project extends ProjectDto {
 })
 export class ProjectsComponent implements OnInit {
   private readonly projectService = inject(ProjectService);
-  public readonly projects = signal<Project[]>([]);
+  private readonly repositoryService = inject(RepositoryService);
+
+  public readonly projects = signal<ProjectDto[]>([]);
+  public readonly repoStats = signal<Record<string, { active: number; total: number }>>({});
 
   ngOnInit(): void {
     this.projectService
       .getList({ skipCount: 0, maxResultCount: 100 })
       .pipe(
         map(res => res?.items ?? []),
-        map(items =>
-          items.map<Project>(p => ({
-            ...p,
-            repoPath: (p as any).repoPath ?? '',
-            branch: (p as any).branch ?? '',
-            active: (p as any).active ?? 0,
-            total: (p as any).total ?? 0,
-          })),
-        ),
         take(1),
       )
       .subscribe(items => this.projects.set(items));
+  }
+
+  loadRepoStats(projectId: string): void {
+    if (this.repoStats()[projectId]) {
+      return;
+    }
+
+    // TODO(api): server-side aggregation endpoint for repository counts by project
+    this.repositoryService
+      .getList({ skipCount: 0, maxResultCount: 1000 })
+      .pipe(
+        map(res => res.items?.filter(r => r.projectId === projectId) ?? []),
+        map(list => ({
+          total: list.length,
+          active: list.filter(r => r.isActive).length,
+        })),
+        take(1),
+      )
+      .subscribe(stats =>
+        this.repoStats.update(prev => ({ ...prev, [projectId]: stats })),
+      );
   }
 }

@@ -1,2 +1,5 @@
 import * as Projects from './projects';
-export { Projects };
+import * as Repositories from './repositories';
+import * as Branches from './branches';
+
+export { Projects, Repositories, Branches };
