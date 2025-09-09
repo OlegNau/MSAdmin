@@ -30,6 +30,21 @@
         ></textarea>
       </div>
 
+      <!-- Git Access Token -->
+      <div>
+        <label for="git-token" class="text-sm text-gray-300">Git Access Token</label>
+        <input
+          id="git-token"
+          type="text"
+          formControlName="gitAccessToken"
+          class="mt-1 w-full h-11 rounded-md border border-white/10 bg-white/5 px-3 text-sm text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-white/20"
+          placeholder="token"
+        />
+        @if (form.get('gitAccessToken')?.touched && form.get('gitAccessToken')?.invalid) {
+          <p class="mt-1 text-xs text-red-400">Token is required.</p>
+        }
+      </div>
+
       <!-- Repository / Git URL -->
       <div>
         <label for="repo" class="text-sm text-gray-300">Repository (Git URL)</label>
