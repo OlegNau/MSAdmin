@@ -45,43 +45,6 @@
         }
       </div>
 
-      <!-- Repository / Git URL -->
-      <div>
-        <label for="repo" class="text-sm text-gray-300">Repository (Git URL)</label>
-        <input
-          id="repo"
-          type="text"
-          formControlName="repository"
-          class="mt-1 w-full h-11 rounded-md border border-white/10 bg-white/5 px-3 text-sm text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-white/20"
-          placeholder="https://github.com/org/repo.git"
-        />
-      </div>
-
-      <!-- Default Branch & Visibility -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label for="branch" class="text-sm text-gray-300">Default branch</label>
-          <input
-            id="branch"
-            type="text"
-            formControlName="defaultBranch"
-            class="mt-1 w-full h-11 rounded-md border border-white/10 bg-white/5 px-3 text-sm text-gray-100 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-white/20"
-            placeholder="main"
-          />
-        </div>
-        <div>
-          <label for="visibility" class="text-sm text-gray-300">Visibility</label>
-          <select
-            id="visibility"
-            formControlName="visibility"
-            class="mt-1 w-full h-11 rounded-md border border-white/10 bg-white/5 px-3 text-sm text-gray-100 focus:outline-none focus:ring-2 focus:ring-white/20"
-          >
-            <option value="private">Private</option>
-            <option value="public">Public</option>
-          </select>
-        </div>
-      </div>
-
       <!-- Footer -->
       <div class="flex items-center justify-end gap-3 pt-4">
         <button

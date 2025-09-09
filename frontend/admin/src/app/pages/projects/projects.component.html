@@ -36,24 +36,17 @@
               </svg>
               <a [routerLink]="['/projects', p.id]" class="text-lg font-semibold hover:underline">{{ p.name }}</a>
             </div>
-            <span class="rounded-full border border-white/10 px-2 py-0.5 text-[11px] bg-white/10"
-              >{{ p.provider }}</span
-            >
           </div>
           <p class="mt-2 text-sm text-gray-400">{{ p.description }}</p>
-          <div class="mt-4">
-            <div class="text-xs text-gray-400">Repository</div>
-            <div class="mt-1 flex items-center gap-2">
-              <code class="rounded bg-black/40 px-2 py-1 text-[13px] tracking-tight">{{ p.repoPath }}</code>
-              <span class="rounded-full bg-white/10 px-2 py-0.5 text-[11px]">{{ p.branch }}</span>
-            </div>
-          </div>
-          <div class="mt-5 flex items-center justify-between text-sm">
-            <span>
-              Active pipelines:
-              <a class="text-blue-400 hover:underline" routerLink="/all-pipelines">{{ p.active }}</a>
-            </span>
-            <span class="text-gray-400">{{ p.total }} total</span>
+
+          <div class="mt-5 text-sm">
+            @if (repoStats()[p.id!]; as stats) {
+              <span>Repositories: {{ stats.active }} active / {{ stats.total }} total</span>
+            } @else {
+              <button class="text-blue-400 hover:underline" (click)="loadRepoStats(p.id!)">
+                Load repositories
+              </button>
+            }
           </div>
         </div>
       </article>

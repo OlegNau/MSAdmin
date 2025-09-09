@@ -27,9 +27,6 @@ export class CreateProjectComponent {
     name: ['', Validators.required],
     description: [''],
     gitAccessToken: ['', Validators.required],
-    repository: [''],
-    defaultBranch: [''],
-    visibility: ['private'],
   });
 
   public submit(): void {
@@ -44,7 +41,7 @@ export class CreateProjectComponent {
         description: this.form.value.description ?? '',
         gitAccessToken: this.form.value.gitAccessToken ?? '',
       })
-      .subscribe(() => this.router.navigate(['/projects']));
+      .subscribe(project => this.router.navigate(['/projects', project.id]));
   }
 
   public cancel(): void {
