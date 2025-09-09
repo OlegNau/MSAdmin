@@ -1,0 +1,114 @@
+<div class="w-full mx-auto px-4 sm:px-6 lg:px-8">
+  <header class="pt-8">
+    <h1 class="text-3xl font-bold">Dashboard Stats</h1>
+    <p class="mt-1 text-sm text-gray-400">Агрегированная аналитика по проектам и пайплайнам</p>
+  </header>
+
+  <div class="mt-6 flex flex-col lg:flex-row lg:items-center gap-3">
+    <div class="flex gap-3 flex-1">
+      <div class="flex-1">
+        <label class="text-xs text-gray-400">Project</label>
+        <select [(ngModel)]="projectId"
+          class="mt-1 w-full h-10 rounded-md border border-white/10 bg-white/5 px-3 text-sm text-gray-100">
+          <option value="all">All projects</option>
+          @for (p of projects; track p.id) { <option [value]="p.id">{{ p.name }}</option> }
+        </select>
+      </div>
+      <div class="flex-1">
+        <label class="text-xs text-gray-400">Pipeline</label>
+        <select [(ngModel)]="pipelineId"
+          class="mt-1 w-full h-10 rounded-md border border-white/10 bg-white/5 px-3 text-sm text-gray-100">
+          @for (pl of pipelinesForSelected(); track pl.id) { <option [value]="pl.id">{{ pl.name }}</option> }
+        </select>
+      </div>
+    </div>
+
+    <div class="flex gap-2">
+      <button (click)="period.set('7d')"  class="h-10 px-3 rounded-md border border-white/10 text-sm"
+              [class.bg-white/10]="period()==='7d'">7d</button>
+      <button (click)="period.set('30d')" class="h-10 px-3 rounded-md border border-white/10 text-sm"
+              [class.bg-white/10]="period()==='30d'">30d</button>
+      <button (click)="period.set('90d')" class="h-10 px-3 rounded-md border border-white/10 text-sm"
+              [class.bg-white/10]="period()==='90d'">90d</button>
+    </div>
+  </div>
+
+  <section class="mt-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+    <article class="rounded-xl border border-white/10 bg-white/[0.03] p-4" style="box-shadow:0 0 0 1px rgba(255,255,255,.02) inset">
+      <div class="text-xs text-gray-400">Success rate</div>
+      <div class="mt-1 text-2xl font-semibold">{{ totals().rate }}%</div>
+      <div class="mt-2 h-1.5 rounded bg-white/10">
+        <div class="h-1.5 rounded bg-emerald-500" [style.width.%]="totals().rate"></div>
+      </div>
+    </article>
+
+    <article class="rounded-xl border border-white/10 bg-white/[0.03] p-4" style="box-shadow:0 0 0 1px rgba(255,255,255,.02) inset">
+      <div class="text-xs text-gray-400">Avg duration</div>
+      <div class="mt-1 text-2xl font-semibold">
+        {{ (totals().avg/60) | number:'1.0-0' }}m {{ (totals().avg%60) | number:'1.0-0' }}s
+      </div>
+      <div class="mt-2">
+        <svg viewBox="0 0 100 32" class="w-full h-16">
+          <path [attr.d]="sparklinePath()" fill="none" stroke="currentColor" stroke-width="1.5" class="text-blue-400"></path>
+        </svg>
+      </div>
+    </article>
+
+    <article class="rounded-xl border border-white/10 bg-white/[0.03] p-4" style="box-shadow:0 0 0 1px rgba(255,255,255,.02) inset">
+      <div class="text-xs text-gray-400">Total runs</div>
+      <div class="mt-1 text-2xl font-semibold">{{ totals().runs }}</div>
+      <div class="mt-2 text-xs text-gray-400">Period: {{ period() }}</div>
+    </article>
+
+    <article class="rounded-xl border border-white/10 bg-white/[0.03] p-4" style="box-shadow:0 0 0 1px rgba(255,255,255,.02) inset">
+      <div class="text-xs text-gray-400">Successful</div>
+      <div class="mt-1 text-2xl font-semibold text-emerald-300">{{ totals().ok }}</div>
+      <div class="mt-2 text-xs text-gray-400">of {{ totals().runs }} total</div>
+    </article>
+  </section>
+
+  <section class="mt-6 grid grid-cols-1 xl:grid-cols-3 gap-6 pb-12">
+    <article class="xl:col-span-2 rounded-xl border border-white/10 bg-white/[0.03] p-5"
+             style="box-shadow:0 0 0 1px rgba(255,255,255,.02) inset">
+      <header class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold">Success vs Fail (last {{ period() }})</h2>
+        <div class="text-xs text-gray-400">Daily breakdown</div>
+      </header>
+      <div class="h-40 w-full grid items-end gap-1"
+           [style.gridTemplateColumns]="'repeat(' + days().length + ', minmax(0,1fr))'">
+        @for (d of days(); track d.date) {
+          <div class="grid" style="grid-template-rows: 1fr auto">
+            <div class="flex flex-col justify-end h-32">
+              <div class="flex flex-col justify-end h-full">
+                <div class="bg-emerald-500/70" [style.height.%]="(d.success/(d.success+d.failed))*100"></div>
+                <div class="bg-rose-500/70"    [style.height.%]="(d.failed /(d.success+d.failed))*100"></div>
+              </div>
+            </div>
+            <div class="mt-1 text-[10px] text-gray-400 text-center">{{ d.date | date:'MM/dd' }}</div>
+          </div>
+        }
+      </div>
+    </article>
+
+    <article class="rounded-xl border border-white/10 bg-white/[0.03] p-5"
+             style="box-shadow:0 0 0 1px rgba(255,255,255,.02) inset">
+      <header class="mb-4">
+        <h2 class="text-lg font-semibold">Average duration</h2>
+        <div class="text-xs text-gray-400">Minutes per day</div>
+      </header>
+      <div class="space-y-2">
+        @for (d of days(); track d.date) {
+          <div class="flex items-center gap-2">
+            <div class="text-[10px] w-12 text-gray-400">{{ d.date | date:'MM/dd' }}</div>
+            <div class="flex-1 h-2 rounded bg-white/10">
+              <div class="h-2 rounded bg-blue-500"
+                   [style.width.%]="(d.avgSec / (60*4)) * 100"></div>
+            </div>
+            <div class="w-14 text-right text-xs text-gray-300">{{ (d.avgSec/60) | number:'1.0-0' }}m</div>
+          </div>
+        }
+      </div>
+    </article>
+  </section>
+</div>
+

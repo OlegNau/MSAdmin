@@ -1,0 +1,3 @@
+@use 'styles/variables' as *;
+
+.is-active { @apply bg-white/10 text-white; }
