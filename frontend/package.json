@@ -37,7 +37,6 @@
     "@angular/platform-browser": "^20.2.0",
     "@angular/platform-browser-dynamic": "^20.2.3",
     "@angular/router": "^20.2.0",
-    "@angular/localize": "^20.2.0",
     "@swimlane/ngx-datatable": "^22.0.0",
     "lucide-angular": "^0.542.0",
     "rxjs": "~7.8.0",

@@ -1,10 +1,14 @@
 import { Routes } from '@angular/router';
+import { canActivateAuth } from './core/guards/auth.guard';
+import { AppLayoutComponent } from './layout/app-layout.component';
+import { LoginComponent } from './pages/login/login.component';
 
 export const routes: Routes = [
+  { path: 'login', component: LoginComponent },
   {
     path: '',
-    loadComponent: () =>
-      import('./layout/app-layout.component').then(m => m.AppLayoutComponent),
+    component: AppLayoutComponent,
+    canActivate: [canActivateAuth],
     children: [
       {
         path: 'dashboard',

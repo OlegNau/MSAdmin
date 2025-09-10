@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output, inject } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from "@abp/ng.core";
 
 @Component({
   selector: 'app-header',
@@ -17,6 +18,12 @@ export class AppHeaderComponent {
 
   public onMenuClick(): void {
     this.menuToggle.emit();
+  }
+
+  private readonly auth = inject(AuthService);
+
+  AuthServicelogout(): void {
+    this.auth.logout();
   }
 }
 
