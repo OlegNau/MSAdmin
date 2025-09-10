@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ProjectService } from '../../proxy/projects/project.service';
+import type { CreateProjectForm } from './models/create-project.model';
 
 @Component({
   selector: 'app-create-project',
@@ -22,7 +23,7 @@ export class CreateProjectComponent {
   private readonly router = inject(Router);
   private readonly projectService = inject(ProjectService);
 
-  public readonly form = this.fb.group({
+  public readonly form = this.fb.nonNullable.group<CreateProjectForm>({
     name: ['', Validators.required],
     description: [''],
     gitAccessToken: ['', Validators.required],
@@ -34,12 +35,10 @@ export class CreateProjectComponent {
       return;
     }
 
+    const { name, description, gitAccessToken } = this.form.value;
+
     this.projectService
-      .create({
-        name: this.form.value.name ?? '',
-        description: this.form.value.description ?? '',
-        gitAccessToken: this.form.value.gitAccessToken ?? '',
-      })
+      .create({ name, description, gitAccessToken })
       .subscribe(project => this.router.navigate(['/projects', project.id]));
   }
 
