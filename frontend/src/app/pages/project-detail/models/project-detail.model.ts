@@ -11,8 +11,8 @@ export interface RepositoryRow {
 }
 
 export interface CreateRepositoryForm {
-  provider: string;   // base URL: https://github.com/
-  repoPath: string;   // UI-only: org/repo
+  provider: string;
+  repoPath: string;
   name: string;
   webhookUrl?: string;
   isActive: boolean;

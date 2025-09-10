@@ -8,9 +8,11 @@ import { registerLocale } from '@abp/ng.core/locale';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { environment } from './environments/environment';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideAnimations(),
     provideRouter(routes),
     provideHttpClient(withInterceptors([httpErrorInterceptor])),
     provideAbpCore(

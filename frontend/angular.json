@@ -10,33 +10,36 @@
           "style": "scss"
         }
       },
-      "root": "frontend",
-      "sourceRoot": "frontend/src",
+      "root": "",
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular/build:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "browser": "frontend/src/main.ts",
+            "outputPath": "dist/admin",
+            "index": "src/index.html",
+            "main": "src/main.ts",
             "polyfills": [
-              "zone.js"
+              "src/polyfills.ts"
             ],
-            "tsConfig": "frontend/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "frontend/src"
-              ]
+              "includePaths": ["src", "src/styles"]
             },
             "assets": [
-              "frontend/src/assets"
+              "src/assets"
             ],
             "styles": [
-              "frontend/src/styles.scss"
+              "src/styles.scss"
             ]
           },
           "configurations": {
             "production": {
+              "optimization": true,
+              "buildOptimizer": true,
+              "extractLicenses": true,
+              "outputHashing": "all",
               "budgets": [
                 {
                   "type": "initial",
@@ -49,11 +52,10 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all",
               "fileReplacements": [
                 {
-                  "replace": "frontend/src/environments/environment.ts",
-                  "with": "frontend/src/environments/environment.prod.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
                 }
               ]
             },
@@ -63,10 +65,10 @@
               "sourceMap": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
-          "builder": "@angular/build:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "admin:build:production"
@@ -78,27 +80,26 @@
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "polyfills": [
+              "src/polyfills.ts",
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "frontend/tsconfig.spec.json",
+            "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "frontend/src"
-              ]
+              "includePaths": ["src", "src/styles"]
             },
             "assets": [
-              "frontend/src/assets"
+              "src/assets"
             ],
             "styles": [
-              "frontend/src/styles.scss"
+              "src/styles.scss"
             ]
           }
         }

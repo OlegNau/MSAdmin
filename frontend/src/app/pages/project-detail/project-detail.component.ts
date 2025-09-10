@@ -4,10 +4,10 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { take, map, finalize } from 'rxjs';
 
-import { ProjectService } from '../../proxy/projects/project.service';
-import { RepositoryService } from '../../proxy/repositories/repository.service';
-import { BranchService } from '../../proxy/branches/branch.service';
-import { PipelineService } from '../../proxy/pipelines/pipeline.service';
+import { ProjectService } from '../../proxy/projects';
+import { RepositoryService } from '../../proxy/repositories';
+import { BranchService } from '../../proxy/branches';
+import { PipelineService } from '../../proxy/pipelines';
 
 import type {
   ProjectDetailView,
@@ -20,14 +20,6 @@ import type {
 
 import { ToastService } from '../../core/toast/toast.service';
 import { LocalizationPipe } from '@abp/ng.core';
-
-function providerFromUrl(url: string): VcsProvider | undefined {
-  if (!url) return undefined;
-  if (url.includes('github.com')) return 'GitHub';
-  if (url.includes('gitlab.com')) return 'GitLab';
-  if (url.includes('bitbucket.org')) return 'Bitbucket';
-  return undefined;
-}
 
 @Component({
   selector: 'app-project-detail',
@@ -57,29 +49,28 @@ export class ProjectDetailComponent implements OnInit {
   public readonly repoToggling = signal<Record<string, boolean>>({});
   public readonly branchSubmitting = signal<boolean>(false);
 
-  public readonly repoForm = this.fb.nonnullable.group<CreateRepositoryForm>(
-    {
-      provider: 'https://github.com/',
-      repoPath: '',
-      name: '',
-      webhookUrl: '',
-      isActive: true,
-    },
-    {
-      validators: [],
-    },
-  );
-  this.repoForm.get('name')!.addValidators([Validators.required]);
-  this.repoForm.get('repoPath')!.addValidators([Validators.required]);
+  public readonly repoForm = this.fb.nonNullable.group<CreateRepositoryForm>({
+    provider: 'https://github.com/',
+    repoPath: '',
+    name: '',
+    webhookUrl: '',
+    isActive: true,
+  });
 
-  public readonly branchForm = this.fb.nonnullable.group<CreateBranchForm>({
+  public readonly branchForm = this.fb.nonNullable.group<CreateBranchForm>({
     name: '',
     isDefault: true,
   });
-  this.branchForm.get('name')!.addValidators([Validators.required]);
 
   public readonly loadingPipelines = signal<boolean>(true);
   public readonly pipelines = signal<PipelineRow[]>([]);
+
+  constructor() {
+    // навешиваем валидаторы здесь, чтобы не оставлять выражения на уровне класса
+    this.repoForm.controls.repoPath.addValidators(Validators.required);
+    this.repoForm.controls.name.addValidators(Validators.required);
+    this.branchForm.controls.name.addValidators(Validators.required);
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id') ?? '';
@@ -111,7 +102,13 @@ export class ProjectDetailComponent implements OnInit {
 
   toggleRepoForm(): void {
     this.showRepoForm.update(v => !v);
-    this.repoForm.reset({ provider: 'https://github.com/', repoPath: '', name: '', webhookUrl: '', isActive: true });
+    this.repoForm.reset({
+      provider: 'https://github.com/',
+      repoPath: '',
+      name: '',
+      webhookUrl: '',
+      isActive: true,
+    });
   }
 
   private loadRepositories(): void {
@@ -119,15 +116,15 @@ export class ProjectDetailComponent implements OnInit {
     this.repositoryService
       .getList({ skipCount: 0, maxResultCount: 1000 })
       .pipe(
-        map(res => (res.items ?? []).filter(r => r.projectId === this.project().id)),
-        map(items =>
+        map((res: any) => (res.items ?? []).filter((r: any) => r.projectId === this.project().id)),
+        map((items: any[]) =>
           items.map<RepositoryRow>(r => ({
             id: r.id!,
             name: r.name ?? '',
             url: r.url ?? '',
             isActive: !!r.isActive,
             projectId: r.projectId!,
-            provider: providerFromUrl(r.url ?? ''),
+            provider: this.providerFromUrl(r.url ?? ''),
           })),
         ),
         take(1),
@@ -171,7 +168,7 @@ export class ProjectDetailComponent implements OnInit {
               url: repo.url ?? '',
               isActive: !!repo.isActive,
               projectId: repo.projectId!,
-              provider: providerFromUrl(repo.url ?? ''),
+              provider: this.providerFromUrl(repo.url ?? ''),
             },
           ]);
           this.showRepoForm.set(false);
@@ -195,7 +192,9 @@ export class ProjectDetailComponent implements OnInit {
       .pipe(finalize(() => this.repoToggling.update(m => ({ ...m, [repo.id]: false }))), take(1))
       .subscribe({
         next: () => {
-          this.repositories.update(list => list.map(r => (r.id === repo.id ? { ...r, isActive: checked } : r)));
+          this.repositories.update(list =>
+            list.map(r => (r.id === repo.id ? { ...r, isActive: checked } : r)),
+          );
           this.toast.success({ message: 'Repository updated' }); // TODO(i18n)
         },
         error: () => this.toast.error({ message: 'Failed to update repository' }), // TODO(i18n)
@@ -232,13 +231,13 @@ export class ProjectDetailComponent implements OnInit {
     this.pipelineService
       .getList({ skipCount: 0, maxResultCount: 1000 /* TODO(api): filter by project if available */ })
       .pipe(
-        map(res =>
-          (res.items ?? []).map<PipelineRow>(p => ({
-            id: p.id!,
-            name: (p as any).name ?? p.id!.slice(0, 8),
-            status: ((p as any).status as any) ?? 'Inactive',
+        map((res: any) =>
+          (res.items ?? []).map((p: any) => ({
+            id: p.id as string,
+            name: (p.name as string) ?? (p.id as string).slice(0, 8),
+            status: (p.status as any) ?? 'Inactive',
             lastRun: p.startedAt ? String(p.startedAt) : '',
-          })),
+          })) as PipelineRow[],
         ),
         take(1),
         finalize(() => this.loadingPipelines.set(false)),
@@ -250,5 +249,13 @@ export class ProjectDetailComponent implements OnInit {
           this.pipelines.set([]);
         },
       });
+  }
+
+  private providerFromUrl(url: string): VcsProvider | undefined {
+    if (!url) return undefined;
+    if (url.includes('github.com')) return 'GitHub';
+    if (url.includes('gitlab.com')) return 'GitLab';
+    if (url.includes('bitbucket.org')) return 'Bitbucket';
+    return undefined;
   }
 }
