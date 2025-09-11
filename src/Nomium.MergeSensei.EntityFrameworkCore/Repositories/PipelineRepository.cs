@@ -1,6 +1,6 @@
 using System;
 using Nomium.MergeSensei.Contracts.Repositories;
-using Nomium.MergeSensei.Entities;
+using Nomium.MergeSensei.Pipelines;
 using Nomium.MergeSensei.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;

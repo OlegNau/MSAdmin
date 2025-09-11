@@ -1,14 +1,12 @@
 using AutoMapper;
-using Nomium.MergeSensei.Entities;
 using Nomium.MergeSensei.Pipelines.Dtos;
 
 namespace Nomium.MergeSensei.Pipelines;
 
-public class PipelineMapper : Profile
+public class PipelineApplicationAutoMapperProfile : Profile
 {
-    public PipelineMapper()
+    public PipelineApplicationAutoMapperProfile()
     {
         CreateMap<Pipeline, PipelineDto>();
-        CreateMap<PipelineDto, Pipeline>();
     }
-} 
+}

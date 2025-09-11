@@ -286,7 +286,7 @@ namespace Nomium.MergeSensei.Migrations
                     b.ToTable("NodeTypes", (string)null);
                 });
 
-            modelBuilder.Entity("Nomium.MergeSensei.Entities.Pipeline", b =>
+            modelBuilder.Entity("Nomium.MergeSensei.Pipelines.Pipeline", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -340,6 +340,26 @@ namespace Nomium.MergeSensei.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("LastModifierId");
 
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("RepositoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("TriggerTypeId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("StartedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -355,6 +375,16 @@ namespace Nomium.MergeSensei.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Pipelines", (string)null);
+                });
+
+            modelBuilder.Entity("Nomium.MergeSensei.Pipelines.PipelineAgent", b =>
+                {
+                    b.Property<Guid>("PipelineId").HasColumnType("uuid");
+                    b.Property<long>("AiModelId").HasColumnType("bigint");
+
+                    b.HasKey("PipelineId", "AiModelId");
+
+                    b.ToTable("PipelineAgent", (string)null);
                 });
 
             modelBuilder.Entity("Nomium.MergeSensei.Entities.PipelineNode", b =>
@@ -2498,7 +2528,7 @@ namespace Nomium.MergeSensei.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Nomium.MergeSensei.Entities.Pipeline", null)
+                    b.HasOne("Nomium.MergeSensei.Pipelines.Pipeline", null)
                         .WithMany()
                         .HasForeignKey("PipelineId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2507,7 +2537,7 @@ namespace Nomium.MergeSensei.Migrations
 
             modelBuilder.Entity("Nomium.MergeSensei.Entities.PipelineTrigger", b =>
                 {
-                    b.HasOne("Nomium.MergeSensei.Entities.Pipeline", null)
+                    b.HasOne("Nomium.MergeSensei.Pipelines.Pipeline", null)
                         .WithMany()
                         .HasForeignKey("PipelineId")
                         .OnDelete(DeleteBehavior.Cascade)
