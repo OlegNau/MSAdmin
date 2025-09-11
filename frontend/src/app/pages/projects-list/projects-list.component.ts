@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ProjectService } from '../../proxy/projects/project.service';
 import { RepositoryService } from '../../proxy/repositories/repository.service';
 import { PipelineService } from '../../proxy/pipelines/pipeline.service';
@@ -12,7 +13,7 @@ import { StubComponent } from '../../shared/components/stub/stub.component';
 @Component({
   selector: 'app-projects-list',
   standalone: true,
-  imports: [CommonModule, ProjectCardComponent, SkeletonDirective, StubComponent],
+  imports: [CommonModule, RouterModule, ProjectCardComponent, SkeletonDirective, StubComponent],
   templateUrl: './projects-list.component.html',
   styleUrls: ['./projects-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
