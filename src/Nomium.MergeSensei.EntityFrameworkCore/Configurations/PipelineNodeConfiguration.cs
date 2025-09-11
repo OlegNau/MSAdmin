@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nomium.MergeSensei.Entities;
+using Nomium.MergeSensei.Pipelines;
 
 namespace Nomium.MergeSensei.Configurations;
 

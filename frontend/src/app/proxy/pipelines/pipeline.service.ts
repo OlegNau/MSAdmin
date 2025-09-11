@@ -1,4 +1,4 @@
-import type { PipelineDto } from './dtos/models';
+import type { PipelineDto, PipelineCreateDto, PipelineUpdateDto } from './dtos/models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -10,7 +10,7 @@ export class PipelineService {
   apiName = 'Default';
   
 
-  create = (input: PipelineDto, config?: Partial<Rest.Config>) =>
+  create = (input: PipelineCreateDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PipelineDto>({
       method: 'POST',
       url: '/api/app/pipeline',
@@ -44,7 +44,7 @@ export class PipelineService {
     { apiName: this.apiName,...config });
   
 
-  update = (id: string, input: PipelineDto, config?: Partial<Rest.Config>) =>
+  update = (id: string, input: PipelineUpdateDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PipelineDto>({
       method: 'PUT',
       url: `/api/app/pipeline/${id}`,

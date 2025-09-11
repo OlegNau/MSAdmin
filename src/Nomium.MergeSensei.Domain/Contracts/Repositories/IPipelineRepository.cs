@@ -1,5 +1,5 @@
 using System;
-using Nomium.MergeSensei.Entities;
+using Nomium.MergeSensei.Pipelines;
 using Volo.Abp.Domain.Repositories;
 
 namespace Nomium.MergeSensei.Contracts.Repositories;

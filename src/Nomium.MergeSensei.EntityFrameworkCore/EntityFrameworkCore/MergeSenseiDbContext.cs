@@ -73,7 +73,7 @@ public class MergeSenseiDbContext(DbContextOptions<MergeSenseiDbContext> options
         builder.ConfigureTenantManagement();
         builder.ConfigureBlobStoring();
 
-        builder.ApplyConfigurationsFromAssembly(typeof(AiModelConfiguration).Assembly);
+        builder.ApplyConfigurationsFromAssembly(typeof(MergeSenseiDbContext).Assembly);
 
         /* Configure your own tables/entities inside here */
 

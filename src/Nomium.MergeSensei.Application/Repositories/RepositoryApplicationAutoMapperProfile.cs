@@ -4,11 +4,10 @@ using Nomium.MergeSensei.Repositories.Dtos;
 
 namespace Nomium.MergeSensei.Repositories;
 
-public class RepositoryMapper : Profile
+public class RepositoryApplicationAutoMapperProfile : Profile
 {
-    public RepositoryMapper()
+    public RepositoryApplicationAutoMapperProfile()
     {
         CreateMap<Repository, RepositoryDto>();
-        CreateMap<RepositoryDto, Repository>();
     }
-} 
+}
