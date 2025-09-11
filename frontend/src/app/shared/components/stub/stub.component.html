@@ -1,0 +1,17 @@
+<div class="stub">
+  <div class="stub__icon" *ngIf="config.icon as i">
+    <!-- можно заменить на свою систему иконок -->
+    <i class="lucide" [attr.data-icon]="i"></i>
+  </div>
+
+  <div class="stub__title">{{ config.title }}</div>
+  <div class="stub__description" *ngIf="config.description">{{ config.description }}</div>
+
+  <button
+    class="stub__button"
+    *ngIf="config.primaryLabel"
+    type="button"
+    (click)="onPrimaryClick()">
+    {{ config.primaryLabel }}
+  </button>
+</div>

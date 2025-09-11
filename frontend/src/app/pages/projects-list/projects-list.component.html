@@ -1,0 +1,28 @@
+<div class="projects-page">
+  <header class="projects-page__header">
+    <h1 class="projects-page__title">Projects</h1>
+    <div class="projects-page__actions">
+      <button type="button" class="projects-page__create" (click)="onCreateProject()">Create Project</button>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <div class="projects-page__grid">
+      @for (_ of [1,2,3,4,5,6]; track _) {
+        <div class="projects-page__card" appSkeleton="true"></div>
+      }
+    </div>
+  } @else if (error()) {
+    <app-stub kind="default" (primary)="onCreateProject()"
+              [overrideConfig]="{ title: 'Failed to load', description: 'Please try again.' , primaryLabel: 'Retry' }">
+    </app-stub>
+  } @else if (items().length === 0) {
+    <app-stub kind="projects" (primary)="onCreateProject()"></app-stub>
+  } @else {
+    <div class="projects-page__grid">
+      @for (p of items(); track p.id) {
+        <app-project-card [project]="p" class="projects-page__card"></app-project-card>
+      }
+    </div>
+  }
+</div>
