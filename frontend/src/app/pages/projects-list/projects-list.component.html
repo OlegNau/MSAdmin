@@ -20,8 +20,8 @@
     <app-stub kind="projects" (primary)="onCreateProject()"></app-stub>
   } @else {
     <div class="projects-page__grid">
-      @for (p of items(); track p.id) {
-        <app-project-card [project]="p" class="projects-page__card"></app-project-card>
+      @for (project of items(); track project.id) {
+        <app-project-card [project]="project" class="projects-page__card"></app-project-card>
       }
     </div>
   }

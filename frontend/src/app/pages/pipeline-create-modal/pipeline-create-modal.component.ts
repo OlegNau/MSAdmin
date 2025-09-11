@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { TriggerTypeService } from '@/app/proxy/trigger-types/trigger-type.service';
+import type { TriggerTypeDto } from '@/app/proxy/trigger-types/dtos/models';
 
 type Trigger = 'manual'|'push'|'schedule';
 type SchType = 'daily'|'weekly'|'cron';
@@ -23,7 +24,7 @@ export class PipelineCreateModalComponent {
 
   step = 1;
   readonly projectId = this.route.snapshot.paramMap.get('projectId')!;
-  readonly triggerTypes$ = this.triggerTypeService.getList({ skipCount: 0, maxResultCount: 100 } as any);
+  readonly triggerTypes = signal<TriggerTypeDto[]>([]);
 
   readonly form = this.fb.nonNullable.group({
     name: this.fb.nonNullable.control('', { validators: [Validators.required, Validators.minLength(3)] }),
@@ -48,6 +49,7 @@ export class PipelineCreateModalComponent {
 
   constructor() {
     this.agentDefs.forEach(() => this.agentsArray.push(this.fb.nonNullable.control(false)));
+    this.loadTriggerTypes();
   }
 
   @HostListener('document:keydown.escape') onEsc() { this.close(); }
@@ -74,5 +76,11 @@ export class PipelineCreateModalComponent {
     const payload = this.form.getRawValue();
     console.log('CREATE PIPELINE', { projectId: this.projectId, ...payload });
     this.close();
+  }
+
+  loadTriggerTypes(): void {
+    this.triggerTypeService
+      .getList({ skipCount: 0, maxResultCount: 100 } as any)
+      .subscribe(res => this.triggerTypes.set(res.items ?? []));
   }
 }
