@@ -1,0 +1,46 @@
+<article class="project-card">
+  <header class="project-card__header">
+    <h3 class="project-card__title">{{ project.name }}</h3>
+    <p class="project-card__description" *ngIf="project.description">{{ project.description }}</p>
+  </header>
+
+  <section class="project-card__section">
+    <div class="project-card__section-title">Repositories</div>
+
+    <div class="project-card__repo-list">
+      @if (repoMeta().length === 0) {
+        <div class="project-card__repo-empty">No repositories yet</div>
+      } @else {
+        @for (r of repoMeta(); track r.id) {
+          <a class="project-card__repo" [href]="r.url" target="_blank" rel="noopener">
+            <img
+              class="project-card__repo-icon"
+              [src]="'assets/images/git/' + (r.provider === 'GitHub' ? 'github' : r.provider === 'GitLab' ? 'gitlab' : r.provider === 'Bitbucket' ? 'bitbucket' : 'git-default') + '.svg'"
+              alt=""
+            />
+            <span class="project-card__repo-name">{{ r.name }}</span>
+          </a>
+        }
+      }
+    </div>
+  </section>
+
+  <section class="project-card__section">
+    <div class="project-card__section-title">Pipelines</div>
+
+    <div class="project-card__pipeline-list">
+      @if (project.pipelines.length === 0) {
+        <div class="project-card__pipeline-empty">No pipelines yet</div>
+      } @else {
+        @for (p of project.pipelines; track p.id) {
+          <div class="project-card__pipeline">
+            <span class="project-card__pipeline-name">{{ p.name }}</span>
+            <span class="project-card__pipeline-meta" *ngIf="p.lastRun as lr">
+              last run: {{ lr | date:'MM/dd/yyyy, hh:mm a' }}
+            </span>
+          </div>
+        }
+      }
+    </div>
+  </section>
+</article>
