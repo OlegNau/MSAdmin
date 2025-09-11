@@ -35,9 +35,9 @@ public class MergeSenseiApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        Configure<AbpAutoMapperOptions>(options =>
+        Configure<AbpAutoMapperOptions>(opt =>
         {
-            options.AddMaps<MergeSenseiApplicationModule>();
+            opt.AddMaps<MergeSenseiApplicationModule>(validate: true);
         });
 
         context.Services.AddScoped<IAiModelAppService, AiModelAppService>();

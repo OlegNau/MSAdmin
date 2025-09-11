@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angul
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
+import { TriggerTypeService } from '@/app/proxy/trigger-types/trigger-type.service';
 
 type Trigger = 'manual'|'push'|'schedule';
 type SchType = 'daily'|'weekly'|'cron';
@@ -18,9 +19,11 @@ export class PipelineCreateModalComponent {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private triggerTypeService = inject(TriggerTypeService);
 
   step = 1;
   readonly projectId = this.route.snapshot.paramMap.get('projectId')!;
+  readonly triggerTypes$ = this.triggerTypeService.getList({ skipCount: 0, maxResultCount: 100 } as any);
 
   readonly form = this.fb.nonNullable.group({
     name: this.fb.nonNullable.control('', { validators: [Validators.required, Validators.minLength(3)] }),

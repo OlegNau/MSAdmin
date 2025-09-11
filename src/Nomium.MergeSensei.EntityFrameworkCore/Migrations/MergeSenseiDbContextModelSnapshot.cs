@@ -315,16 +315,10 @@ namespace Nomium.MergeSensei.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("DeletionTime");
 
-                    b.Property<int?>("Duration")
-                        .HasColumnType("integer");
-
                     b.Property<string>("ExtraProperties")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("ExtraProperties");
-
-                    b.Property<DateTime?>("FinishedAt")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -360,19 +354,20 @@ namespace Nomium.MergeSensei.Migrations
                     b.Property<long>("TriggerTypeId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("StartedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("character varying(32)");
 
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("uuid")
                         .HasColumnName("TenantId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("RepositoryId");
+
+                    b.HasIndex("TriggerTypeId");
 
                     b.ToTable("Pipelines", (string)null);
                 });
@@ -2577,6 +2572,30 @@ namespace Nomium.MergeSensei.Migrations
                         .WithMany()
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Nomium.MergeSensei.Pipelines.Pipeline", b =>
+                {
+                    b.HasOne("Nomium.MergeSensei.Entities.Branch", null)
+                        .WithMany()
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Nomium.MergeSensei.Entities.Repository", null)
+                        .WithMany()
+                        .HasForeignKey("RepositoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Nomium.MergeSensei.Pipelines.PipelineAgent", b =>
+                {
+                    b.HasOne("Nomium.MergeSensei.Pipelines.Pipeline", null)
+                        .WithMany()
+                        .HasForeignKey("PipelineId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
